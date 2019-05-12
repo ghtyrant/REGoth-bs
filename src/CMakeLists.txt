@@ -53,6 +53,8 @@ add_library(REGothEngine
   components/CharacterKeyboardInput.cpp
   components/GameClock.hpp
   components/GameClock.cpp
+  components/ShadowSampling.hpp
+  components/ShadowSampling.cpp
   components/ThirdPersonCamera.hpp
   components/ThirdPersonCamera.cpp
   exception/Throw.hpp

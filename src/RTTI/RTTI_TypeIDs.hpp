@@ -46,5 +46,6 @@ namespace REGoth
     TID_REGOTH_ThirdPersonCamera            = 600038,
     TID_REGOTH_ShadowSampler                = 600039,
     TID_REGOTH_RaycastShadowSampler         = 600040,
+    TID_REGOTH_ShadowSampling               = 600041,
   };
 }  // namespace REGoth
