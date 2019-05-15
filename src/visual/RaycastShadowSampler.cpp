@@ -1,5 +1,6 @@
 #include "RaycastShadowSampler.hpp"
 #include <RTTI/RTTI_RaycastShadowSampler.hpp>
+#include <exception/Throw.hpp>
 
 #include <Components/BsCMeshCollider.h>
 #include <Components/BsCRenderable.h>
@@ -72,14 +73,14 @@ namespace REGoth
 
     if (mesh == nullptr || collider == nullptr)
     {
-      // TODO: Error
+      REGOTH_THROW(InvalidParametersException, "Given mesh or mesh collider are null.");
     }
 
     auto originalMeshData = mesh->getCachedData();
 
     if (originalMeshData == nullptr)
     {
-      // TODO: Error
+      REGOTH_THROW(InvalidParametersException, "Given mesh has no associated mesh data.");
     }
 
     auto vertexDesc         = originalMeshData->getVertexDesc();
@@ -87,25 +88,38 @@ namespace REGoth
 
     if (!vertexColorElement)
     {
-      // TODO: Error
+      REGOTH_THROW(InvalidParametersException, "Given mesh contains no vertex color data.");
     }
   }
 
   RaycastShadowSampler::VertexColorUnpackerType RaycastShadowSampler::getVertexColorUnpackFunction(
       const bs::MeshData& meshData)
   {
+    VertexColorUnpackerType unpacker;
+
     auto vertexColorElement =
         meshData.getVertexDesc()->getElement(bs::VertexElementSemantic::VES_COLOR);
 
-    switch (vertexColorElement->getType())
+    auto elementType = vertexColorElement->getType();
+
+    switch (elementType)
     {
       case bs::VertexElementType::VET_COLOR_ARGB:
-        return bs::Color::fromARGB;
+        unpacker = bs::Color::fromARGB;
+        break;
       case bs::VertexElementType::VET_COLOR_ABGR:
-        return bs::Color::fromABGR;
+        unpacker = bs::Color::fromABGR;
+        break;
+      case bs::VertexElementType::VET_COLOR:
+        unpacker = bs::Color::fromRGBA;
+        break;
       default:
-        return bs::Color::fromRGBA;
+        REGOTH_THROW(
+            InvalidStateException,
+            bs::StringUtil::format("Vertex color element type {0} is unknown.", elementType));
     }
+
+    return unpacker;
   }
 
   RaycastShadowSampler::FaceAccessorType RaycastShadowSampler::getFaceAccessor(
@@ -113,7 +127,9 @@ namespace REGoth
   {
     RaycastShadowSampler::FaceAccessorType accessor;
 
-    switch (meshData.getIndexType())
+    auto indexType = meshData.getIndexType();
+
+    switch (indexType)
     {
       case bs::IndexType::IT_16BIT:
         accessor = [](const bs::MeshData& meshData, bs::UINT32 faceIndex) {
@@ -136,7 +152,8 @@ namespace REGoth
         };
         break;
       default:
-        // TODO: Error
+        REGOTH_THROW(InvalidStateException,
+                     bs::StringUtil::format("Index type {0} is unknown.", indexType));
         break;
     }
 
@@ -171,8 +188,9 @@ namespace REGoth
 
     auto aabb = renderable->getBounds().getBox();
 
-    // TODO: Construct a ray that traces down (look at the original REGoth for reference)
-    ray = bs::Ray(aabb.getCenter(), bs::Vector3(0.f, -1.f, 0.f));
+    // The ray points downwards from the center of the top of the bounding box
+    ray = bs::Ray(bs::Vector3(aabb.getCenter().x, aabb.getMax().y, aabb.getCenter().z),
+                  bs::Vector3(0.f, -1.f, 0.f));
 
     return true;
   }
