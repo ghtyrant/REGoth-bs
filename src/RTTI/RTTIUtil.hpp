@@ -17,6 +17,7 @@
 #include <BsCorePrerequisites.h>
 #include <Reflection/BsRTTIType.h>
 #include <Scene/BsSceneObject.h>
+#include <exception/Throw.hpp>
 
 /**
  * For use in the actual components header. Declares the functions for accessing
@@ -37,11 +38,11 @@
  * note that there is not semicolon after the makro!
  * Futhermore, the makro invocation needs to be in `public`-land of the component.
  */
-#define REGOTH_DECLARE_RTTI(classname)                           \
-  friend class bs::SceneObject;                                  \
-  friend class RTTI_##classname;                                 \
-  static bs::RTTITypeBase* getRTTIStatic();                      \
-  decltype(classname::getRTTIStatic()) getRTTI() const override; 
+#define REGOTH_DECLARE_RTTI(classname)                                            \
+  friend class bs::SceneObject;                                                   \
+  friend class RTTI_##classname;                                                  \
+  static bs::RTTITypeBase* getRTTIStatic();                                       \
+  virtual decltype(classname::getRTTIStatic()) getRTTI() const override; 
 
 /**
  * For use in the actual components source. Defines the functions for accessing
