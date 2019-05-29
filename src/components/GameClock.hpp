@@ -1,8 +1,8 @@
 #pragma once
 #include <BsPrerequisites.h>
+#include <RTTI/RTTIUtil.hpp>
 #include <Scene/BsComponent.h>
 #include <Utility/BsTime.h>
-#include <RTTI/RTTIUtil.hpp>
 
 namespace REGoth
 {
@@ -37,7 +37,8 @@ namespace REGoth
     bs::INT32 getMinute() const;
 
     /**
-     * @return  Whether the current ingame time of day (hh::mm) is between the two given times of day.
+     * @return  Whether the current ingame time of day (hh::mm) is between the two given times of
+     * day.
      *
      * @note    The first time of day can be after the second time of day.
      *
@@ -51,10 +52,10 @@ namespace REGoth
      *              Minute of the second time of day (\p hour2 : \p min2 ) to check against.
      */
     bool isTime(bs::INT32 hour1, bs::INT32 min1, bs::INT32 hour2, bs::INT32 min2) const;
-    
+
     /**
      * Sets the ingame clock (hh:mm) to the given time in hour and minute.
-     * 
+     *
      * @note   Values for \p hour can be over 23 to advance days too.
      *         Calling setTime(24+15, 0) sets the clock to 15:00 and advances one day.
      *
@@ -74,13 +75,13 @@ namespace REGoth
 
     void setTime(bs::UINT32 day, bs::UINT8 hour, bs::UINT8 min);
 
-  /************************************************************************/
-  /* RTTI                                                                 */
-  /************************************************************************/
+    /************************************************************************/
+    /* RTTI                                                                 */
+    /************************************************************************/
   public:
     REGOTH_DECLARE_RTTI(GameClock)
 
-  // protected:
+    // protected:
   public:  // FIXME: Should be protected, it is only used by RTTI but friend doesn't seem to work?!
     GameClock() = default;  // Serialization only
   };
