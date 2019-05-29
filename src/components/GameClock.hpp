@@ -37,6 +37,13 @@ namespace REGoth
     bs::INT32 getMinute() const;
 
     /**
+     * @return Ratio of how far the current day has progressed.
+     *         If the clock says 0:00, this will return 0.0f.
+     *         IF the clock says 23:59, a value close to 1.0f will be returned.
+     */
+    float getDayRatio() const;
+
+    /**
      * @return  Whether the current ingame time of day (hh::mm) is between the two given times of
      * day.
      *

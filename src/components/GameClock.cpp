@@ -45,6 +45,13 @@ namespace REGoth
     return bs::Math::floorToPosInt(elapsedSecondsOfHour / SECONDS_IN_A_MINUTE);
   }
 
+  float GameClock::getDayRatio() const
+  {
+    float elapsedSecondsOfDay = mElapsedIngameSeconds - (getDay() * SECONDS_IN_A_DAY);
+
+    return elapsedSecondsOfDay / SECONDS_IN_A_DAY;
+  }
+
   bool GameClock::isTime(bs::INT32 hour1, bs::INT32 min1, bs::INT32 hour2, bs::INT32 min2) const
   {
     // TODO: Do we need to handle negative input parameters smaller than -24?
