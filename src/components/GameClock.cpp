@@ -10,7 +10,8 @@ namespace REGoth
   constexpr float SECONDS_IN_A_DAY    = 24 * SECONDS_IN_AN_HOUR;
   // see
   // https://forum.worldofplayers.de/forum/threads/396326-Tipp-Tageweise-springen-%28auch-zur%C3%BCck%29?p=6231841&viewfull=1#post6231841
-  constexpr float CLOCK_SPEED_FACTOR = SECONDS_IN_A_DAY / 6000;
+  // constexpr float CLOCK_SPEED_FACTOR = SECONDS_IN_A_DAY / 6000;
+  constexpr float CLOCK_SPEED_FACTOR = SECONDS_IN_A_DAY / 60;
 
   GameClock::GameClock(const bs::HSceneObject& parent)
       : bs::Component(parent)
