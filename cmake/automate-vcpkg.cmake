@@ -92,12 +92,6 @@ if(NOT DEFINED ${CMAKE_TOOLCHAIN_FILE})
     else()
         set(VCPKG_ROOT $ENV{VCPKG_ROOT})
     endif()
-    
-    # We know this wasn't set before so we need point the toolchain file to the newly found VCPKG_ROOT
-    set(CMAKE_TOOLCHAIN_FILE ${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake CACHE STRING "")
-
-    # Just setting vcpkg.cmake as toolchain file does not seem to actually pull in the code
-    include(${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
 
     set(AUTOMATE_VCPKG_USE_SYSTEM_VCPKG OFF)
 else()
@@ -108,8 +102,16 @@ endif()
 
 # Installs a new copy of Vcpkg or updates an existing one
 macro(vcpkg_bootstrap)
+
     _install_or_update_vcpkg()
     
+    if(NOT DEFINED ${CMAKE_TOOLCHAIN_FILE})
+        set(CMAKE_TOOLCHAIN_FILE ${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake CACHE STRING "")
+
+        # Just setting vcpkg.cmake as toolchain file does not seem to actually pull in the code
+        include(${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
+    endif()
+
     message(STATUS "Automate VCPKG status:")
     message(STATUS "  VCPKG_ROOT.....: ${VCPKG_ROOT}")
     message(STATUS "  VCPKG_EXEC.....: ${VCPKG_EXEC}")
@@ -156,10 +158,7 @@ endmacro()
 # Installs the list of packages given as parameters using Vcpkg
 macro(vcpkg_install_packages)
     
-    # Need the given list to be space-separated
-    #string (REPLACE ";" " " PACKAGES_LIST_STR "${ARGN}")
-
-    message(STATUS "Installing/Updating the following vcpkg-packages: ${PACKAGES_LIST_STR}")
+    message(STATUS "Installing/Updating the following vcpkg-packages: ${ARGN}")
 
     if (VCPKG_TRIPLET)
         set(ENV{VCPKG_DEFAULT_TRIPLET} "${VCPKG_TRIPLET}")
