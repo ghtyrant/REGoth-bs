@@ -22,7 +22,7 @@ jobs:
     - bash: |
           mkdir build
           cd build
-          cmake -DCMAKE_BUILD_TYPE=ReLWithDebInfo ..
+          cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
           cmake --build . --parallel
 
   - job: macOS
@@ -32,7 +32,7 @@ jobs:
     - bash: |
           mkdir build
           cd build
-          cmake -DCMAKE_BUILD_TYPE=ReLWithDebInfo ..
+          cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
           cmake --build . --parallel
 
   - job: Windows
@@ -43,5 +43,5 @@ jobs:
     - bash: |
           mkdir build
           cd build
-          cmake -DCMAKE_BUILD_TYPE=ReLWithDebInfo ..
+          cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -A x64..
           cmake --build . --parallel
