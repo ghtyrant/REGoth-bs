@@ -29,7 +29,7 @@ jobs:
           export CXX=g++-8
           mkdir build
           cd build
-          cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
+          cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DVCPKG_TARGET_TRIPLET=x64-linux ..
           cmake --build . --parallel
 
   - job: macOS
