@@ -20,6 +20,8 @@ jobs:
 
     steps:
     - bash: |
+          sudo apt install uuid-dev libgl1-mesa-dev libglu1-mesa-dev mesa-common-dev
+          sudo apt install libx11-dev libxcursor-dev libxrandr-dev libxi-dev
           mkdir build
           cd build
           cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
@@ -30,6 +32,7 @@ jobs:
       vmImage: 'xcode9-macos10.13'
     steps:
     - bash: |
+          brew install ossp-uuid
           mkdir build
           cd build
           cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
