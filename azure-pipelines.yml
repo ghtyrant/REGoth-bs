@@ -18,8 +18,6 @@ jobs:
     pool:
       vmImage: 'ubuntu-16.04'
   
-    container: ubuntu:18.04
-
     steps:
     - bash: |
           sudo apt install uuid-dev libgl1-mesa-dev libglu1-mesa-dev mesa-common-dev
@@ -48,5 +46,5 @@ jobs:
     - bash: |
           mkdir build
           cd build
-          cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -A x64..
+          cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -A x64 ..
           cmake --build . --parallel
