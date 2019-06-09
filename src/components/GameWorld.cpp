@@ -16,6 +16,8 @@
 
 namespace REGoth
 {
+  const char* const WORLD_STARTPOINT = "STARTPOINT";
+
   GameWorld::GameWorld(const bs::HSceneObject& parent, const bs::String& zenFile)
       : bs::Component(parent)
       , mZenFile(zenFile)
